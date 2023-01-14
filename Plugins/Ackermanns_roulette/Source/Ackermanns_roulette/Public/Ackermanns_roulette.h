@@ -20,10 +20,16 @@ public:
 	void PluginButtonClicked();
 
 	FReply HandleGenerateButtonClicked();
+
+	class AAckermanns_Roulette_Manager* FindManagerActor();
+	AAckermanns_Roulette_Manager* SpawnManagerActor();
+
+	AAckermanns_Roulette_Manager* aackermannsRouletteManager;
+
 private:
 
 	void RegisterMenus();
-
+	bool IsModuleInitialized = false;
 	TSharedRef<class SDockTab> OnSpawnPluginTab(const class FSpawnTabArgs& SpawnTabArgs);
 private:
 	TSharedPtr<class FUICommandList> PluginCommands;

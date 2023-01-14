@@ -8,7 +8,8 @@
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Text/STextBlock.h"
 #include "ToolMenus.h"
-
+#include "Kismet/GameplayStatics.h"
+#include "Ackermanns_Roulette_Manager.h"
 static const FName Ackermanns_rouletteTabName("Ackermanns_roulette");
 
 #define LOCTEXT_NAMESPACE "FAckermanns_rouletteModule"
@@ -85,7 +86,20 @@ void FAckermanns_rouletteModule::PluginButtonClicked()
 }
 FReply FAckermanns_rouletteModule::HandleGenerateButtonClicked()
 {
-	UE_LOG(LogTemp, Warning, TEXT("[FAckermanns_rouletteModule::HandleGenerateButtonClicked]Generate Buttton Clicked"));
+	//UE_LOG(LogTemp, Warning, TEXT("[FAckermanns_rouletteModule::HandleGenerateButtonClicked]Generate Buttton Clicked"));
+
+	if (!IsModuleInitialized) {
+		aackermannsRouletteManager = FindManagerActor();
+		if (!IsValid(aackermannsRouletteManager))
+			aackermannsRouletteManager = SpawnManagerActor();
+		aackermannsRouletteManager->OnManagerInitialize();
+		IsModuleInitialized = true;
+	}
+
+	if (IsValid(aackermannsRouletteManager)) {
+		aackermannsRouletteManager->OnGenerateClicked();
+	}
+
 	return FReply::Handled();
 }
 void FAckermanns_rouletteModule::RegisterMenus()
@@ -112,6 +126,30 @@ void FAckermanns_rouletteModule::RegisterMenus()
 		}
 	}
 }
+
+
+//Finding Manager If Already Placed
+AAckermanns_Roulette_Manager* FAckermanns_rouletteModule::FindManagerActor()
+{
+	UWorld* World = GEditor->GetEditorWorldContext().World();
+	TArray<AActor*> ARouletteManagerActors;
+	UGameplayStatics::GetAllActorsOfClass(World, AAckermanns_Roulette_Manager::StaticClass(), ARouletteManagerActors);
+	if (ARouletteManagerActors.Num() > 0) {
+		return Cast<AAckermanns_Roulette_Manager>(ARouletteManagerActors[0]);
+	}
+	return nullptr;
+}
+
+//Spawning Manager
+AAckermanns_Roulette_Manager* FAckermanns_rouletteModule::SpawnManagerActor()
+{	
+	FVector Location(0.0f, 0.0f, 0.0f);
+	FRotator Rotation(0.0f, 0.0f, 0.0f);
+	FActorSpawnParameters SpawnInfo;
+	UWorld* World = GEditor->GetEditorWorldContext().World();
+	return World->SpawnActor<AAckermanns_Roulette_Manager>(Location, Rotation, SpawnInfo);
+}
+
 
 #undef LOCTEXT_NAMESPACE
 	
