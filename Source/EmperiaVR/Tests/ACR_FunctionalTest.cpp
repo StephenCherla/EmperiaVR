@@ -5,7 +5,8 @@
 #include "Misc/AutomationTest.h"
 #include "Tests/AutomationCommon.h"
 #include "HttpService.h"
-
+#include "Ackermanns_ShapesData.h"
+#include "Data/ShapesInfo.h"
 
 #if WITH_DEV_AUTOMATION_TESTS
 //Unit test for valid request
@@ -61,4 +62,23 @@ bool FHttpServiceTest_RequestAndResponseTest::RunTest(const FString& Parameters)
 	return true;
 }
 
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FAckermanns_ShapesDataRetriveTest, "AcR_Plugin.Ackermanns_ShapesData.RetriveTest", EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
+bool FAckermanns_ShapesDataRetriveTest::RunTest(const FString& Parameters)
+{
+	int32 testindex = 0;
+	UAckermanns_ShapesData* shapesdata = NewObject<UAckermanns_ShapesData>();
+	UStaticMesh* SM_FROM_DT = shapesdata->GetStaticMeshFromTable(testindex);
+
+	UDataTable* DT;
+	FSoftObjectPath UnitDataTablePath = FSoftObjectPath(TEXT("DataTable'/Ackermanns_roulette/Data/DataTables/DT_Shapes.DT_Shapes'"));
+	DT = Cast<UDataTable>(UnitDataTablePath.ResolveObject());
+
+	FShapesIndexMap* Item = DT->FindRow<FShapesIndexMap>(DT->GetRowNames()[testindex], "");
+
+	bool test = (SM_FROM_DT == Item->StaticMesh);
+
+	TestEqual(TEXT("Correct static mesh is retrived when fetching data from data table"), true, test);
+	return true;
+}
 #endif
