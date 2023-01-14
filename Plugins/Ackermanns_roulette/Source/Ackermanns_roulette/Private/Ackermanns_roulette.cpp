@@ -18,7 +18,7 @@ void FAckermanns_rouletteModule::StartupModule()
 {
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 	
-	FAckermanns_rouletteStyle::Initialize();
+	/*FAckermanns_rouletteStyle::Initialize();
 	FAckermanns_rouletteStyle::ReloadTextures();
 
 	FAckermanns_rouletteCommands::Register();
@@ -34,7 +34,7 @@ void FAckermanns_rouletteModule::StartupModule()
 	
 	FGlobalTabmanager::Get()->RegisterNomadTabSpawner(Ackermanns_rouletteTabName, FOnSpawnTab::CreateRaw(this, &FAckermanns_rouletteModule::OnSpawnPluginTab))
 		.SetDisplayName(LOCTEXT("FAckermanns_rouletteTabTitle", "Ackermanns_roulette"))
-		.SetMenuType(ETabSpawnerMenuType::Hidden);
+		.SetMenuType(ETabSpawnerMenuType::Hidden);*/
 }
 
 void FAckermanns_rouletteModule::ShutdownModule()
@@ -42,7 +42,7 @@ void FAckermanns_rouletteModule::ShutdownModule()
 	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
 	// we call this function before unloading the module.
 
-	UToolMenus::UnRegisterStartupCallback(this);
+	/*UToolMenus::UnRegisterStartupCallback(this);
 
 	UToolMenus::UnregisterOwner(this);
 
@@ -50,7 +50,7 @@ void FAckermanns_rouletteModule::ShutdownModule()
 
 	FAckermanns_rouletteCommands::Unregister();
 
-	FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(Ackermanns_rouletteTabName);
+	FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(Ackermanns_rouletteTabName);*/
 }
 
 TSharedRef<SDockTab> FAckermanns_rouletteModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
