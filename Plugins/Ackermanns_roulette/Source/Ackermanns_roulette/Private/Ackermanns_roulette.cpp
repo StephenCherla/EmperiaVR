@@ -54,22 +54,27 @@ void FAckermanns_rouletteModule::ShutdownModule()
 
 TSharedRef<SDockTab> FAckermanns_rouletteModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
 {
-	FText WidgetText = FText::Format(
-		LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
-		FText::FromString(TEXT("FAckermanns_rouletteModule::OnSpawnPluginTab")),
-		FText::FromString(TEXT("Ackermanns_roulette.cpp"))
-		);
-
+	//Define the slate design here (A Window with a button)
 	return SNew(SDockTab)
 		.TabRole(ETabRole::NomadTab)
 		[
 			// Put your tab content here!
-			SNew(SBox)
-			.HAlign(HAlign_Center)
-			.VAlign(VAlign_Center)
-			[
-				SNew(STextBlock)
-				.Text(WidgetText)
+			SNew(SVerticalBox)
+			+ SVerticalBox::Slot().VAlign(VAlign_Top).AutoHeight()
+		[
+			SNew(SHorizontalBox)
+			+ SHorizontalBox::Slot()
+		.HAlign(HAlign_Left)
+		.MaxWidth(90.0F)
+		.Padding(0, 60, 40, 10)[
+			SNew(SButton)
+				.OnClicked_Raw(this, &FAckermanns_rouletteModule::HandleGenerateButtonClicked)
+				.VAlign(VAlign_Center)
+				.HAlign(HAlign_Center)[
+					SNew(STextBlock)
+						.Text(LOCTEXT("GenerateButton", "Generate"))
+					]
+				]
 			]
 		];
 }
@@ -78,7 +83,11 @@ void FAckermanns_rouletteModule::PluginButtonClicked()
 {
 	FGlobalTabmanager::Get()->TryInvokeTab(Ackermanns_rouletteTabName);
 }
-
+FReply FAckermanns_rouletteModule::HandleGenerateButtonClicked()
+{
+	UE_LOG(LogTemp, Warning, TEXT("[FAckermanns_rouletteModule::HandleGenerateButtonClicked]Generate Buttton Clicked"));
+	return FReply::Handled();
+}
 void FAckermanns_rouletteModule::RegisterMenus()
 {
 	// Owner will be used for cleanup in call to UToolMenus::UnregisterOwner

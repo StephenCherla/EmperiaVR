@@ -18,13 +18,13 @@ public:
 	
 	/** This function will be bound to Command (by default it will bring up plugin window) */
 	void PluginButtonClicked();
-	
+
+	FReply HandleGenerateButtonClicked();
 private:
 
 	void RegisterMenus();
 
 	TSharedRef<class SDockTab> OnSpawnPluginTab(const class FSpawnTabArgs& SpawnTabArgs);
-
 private:
 	TSharedPtr<class FUICommandList> PluginCommands;
 };
